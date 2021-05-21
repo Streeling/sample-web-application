@@ -1,0 +1,26 @@
+= MVC
+
+NOTE: Acest text reprezintă, în mare măsură, traducerea răspunsului de aici
+https://softwareengineering.stackexchange.com/a/127632/151337.
+
+MVC (Model-View-Controller) este o arhitectură de software in care logica aplicației este izolată (separată) de
+prezentare. Aceasta este realizat prin separarea aplicației in trei părți: structura datelor (în engleză _model_),
+prezentarea și interacțiunea (în engleză _view_) și procesare (în engleză _controller_).
+
+_Modelul_ gestioneaza comportamentele fundamentale și datele aplicației. Acesta poate raspunde la requesturi de
+informare, la instrucțiuni de a schimba starea informației și chiar de a notifica observatori
+(în event-driven systems), atunci când informația se schimbă. Modelul poate fi baza de date, sau orice număr de
+structuri de date sau sisteme de păstrare a datelor. [mai e numit stratul de domeniu]
+
+_View_ - efectiv furnizează elementele de interfată utilizator ale aplicației. Acesta va afișa (render) datele din
+model intr-o formă care e potrivita (suitable) pentru interfața utilizator.
+
+_Controlerul_ receptioneaza cererile utilizatorului (user input) și efectuează apeluri (call) către obiectle din model
+și view pentru a efectua acțiunile potrivite (appropriate). [vaapelaun modelconform acțiuniisolicitateși, apoi, vaselectaun viewcorespunzător]
+
+Generalizand, aceste trei componente lucreaza impreuna pentru a creea cele trei componente de baza ale MVC.
+Diferenta dintre MVC si arhitectura pe/cu 3 straturi (eng 3-tier architectur): in orice arhitectura pe straturi, couminca doar straturile vecine, doua straturi care nu-s vecine nu pot comunica direct, adica comunicarea are loc in linie,e liniar,  pe cand in implementarea clasica a MVC cumincarea are loc in triunghi.
+Exemplu 3 straturi:
+prezentare <-> business <-> date
+Exemplu MVC:
+he view sends updates to the controller, the controller updates the model, and the view gets updated directly from the model.

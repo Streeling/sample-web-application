@@ -1,0 +1,46 @@
+= Maven
+
+Maven este utilizat pentru gestionarea dependințelor și construirea (build-ul) proiectelor (în special Java).
+
+== Structura unui proiect Maven
+
+Structura proiectului Maven în cazul nostru va arăta astfel:
+
+[source,ascii,subs="verbatim,attributes"]
+----
+spring-boot
+   |-- pom.xml
+   `-- src
+      |-- main
+      |   |-- java
+      |   |   `-- com
+      |   |       `-- example
+      |   |           `-- springboot
+      |   |               `-- Application.java
+      |   `-- resources
+      |   |   `-- application.properties
+      `-- test
+          |-- java
+          |   `-- com
+          |       `-- example
+          |           `-- springboot
+          |               `-- ApplicationTests.java
+          `-- resources
+----
+
+Observăm că în rădăcină avem fișierul _pom.xml_ și dosarul _src_. Fișierul _pom.xml_ (se descifrează
+_Project Object Model_) conține informație despre proiect și detalii de configurare folosite de Maven la construirea
+proiectului. În dosarul _src_ avem proiectul propriu-zis: în _src/main_ sunt sursele principale ale acelui proiect,
+iar în _src/test_ - sursele de test ale proiectului.
+
+== Maven _wrapper_
+
+În dosarul proiectului generat utilizând Spring Initializr, veți observa subdosarul _.mvn_ fișierele: _mvnw_ și
+_mvnw.cmd_. Aceste instrumente pot fi utilizate pentru a rula comenzi Maven fara a avea Maven instalat, instrumentul
+va instala Maven în mod automat. Fișierul _mvnw_ este pentru Linux, iar _mvnw.cmd_ - pentru Windows. Utilizați
+_mvnw.cmd_ pentru a rula comenzi Maven, de exemplu:
+
+[source, cmd]
+----
+mvnw.cmd clean install
+----

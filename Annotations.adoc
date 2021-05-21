@@ -1,0 +1,201 @@
+= Adnotări: Annotations
+
+NOTE: Acest text reprezintă, în mare măsură, traducerea documentației oficiale de la adresa
+https://docs.oracle.com/javase/tutorial/java/annotations/index.html.
+
+[quote, Socrate]
+____
+Eu știu că nu știu nimic
+____
+
+Adnotările reprezintă o formă de metadate. Ele sunt utilizate pentru a furniza date despre program dar nu sunt parte a
+programului propriu-zis.
+
+Pare a fi o definiție (explicație) recursivă sau foarte vaga. Nu e nimic, in continuare venim cu exemple si explicații.
+
+== Formatul unei adnotări
+
+Un exemplu simplu de adnotare:
+
+[source, java]
+----
+@Entity
+----
+
+Simbolul „A rond” (@, în engleză „At sign”) indică compilatorul că ceea ce urmează e o adnotare. În următorul exemplu,
+numele adnotării este `Override`:
+
+[source, java]
+----
+@Override
+void mySuperMethod() { ... }
+----
+
+Adnotările pot conține atribute, aceste atribute posedă nume și pot primi diferite valori (putem face analogie cu
+parametrii unei metode):
+
+[source, java]
+----
+@Author(
+   name = "Benjamin Franklin",
+   date = "3/27/2003"
+)
+class MyClass() { ... }
+----
+
+sau
+
+[source, java]
+----
+@SuppressWarnings(value = "unchecked")
+void myMethod() { ... }
+----
+
+În cazul când adnotarea conține un singur atribut și numele acestuia e `value` (adnotări singulare), putem omite
+numele atributului:
+
+[source, java]
+----
+@SuppressWarnings("unchecked")
+void myMethod() { ... }
+----
+
+Dacă adnotarea nu are atribute, atunci parantezele (rotunde) pot fi omise, așa cum e exemplificat mai sus pentru
+`@Override`.
+
+Putem folosi mai multe adnotări pentru aceeași declarație:
+
+[source, java]
+----
+@Author(name = "Jane Doe")
+@EBook
+class MyClass { ... }
+----
+
+Daca adnotările au același tip, atunci spunem ca avem adnotări care se repetă (în engleză _repeating annotations_):
+
+[source, java]
+----
+@Author(name = "Jane Doe")
+@Author(name = "John Smith")
+class MyClass { ... }
+----
+
+Adnotările care se repeta sunt permise începând cu Java SE 8.
+
+Adnotările `Override` și `SuppressWarnings`, din exemplele de mau sus, sunt adnotări predefinite din Java (SE) și le
+puteți găsi în pachetul `java.lang`. Mai general, orice adnotare predefinită Java este definită fie în `java.lang`, fie
+în pachetul `java.lang.annotation` din Java SE API.
+
+E posibil să definim și propriile tipuri de adnotări. Cum ar fi adnotările `Author` și `EBook` din exemplele
+precedente.
+
+== Unde putem folosi adnotările
+
+Adnotările pot fi aplicate la declarații: declarații de clase, câmpuri, metode și de alte elemente de program. Când
+sunt utilizate la declarări, convenția e să punem fiecare adnotare pe linie proprie.
+
+Începând cu Java SE adnotările pot fi aplicate nu doar la declarații ci și la _utilizarea_ tipurilor (în engleză _use_
+of types). De exemplu:
+
+- Expresii ce creeaza o instanță a unei clase:
+[source, java]
+----
+new @Interned MyObject();
+----
+
+- Conversie de tip (în engleză _type cast_):
+[source, java]
+----
+myString = (@NonNull String) str;
+----
+
+- Clauza `implements`:
+[source, java]
+----
+class UnmodifiableList<T> implements
+    @Readonly List<@Readonly T> { ... }
+----
+
+- Declararea excepțiilor (clauza `throws`)
+[source, java]
+----
+void monitorTemperature() throws
+    @Critical TemperatureException { ... }
+----
+
+Acest fel de adnotări se numesc adnotări de tip (în engleză _type annotations_).
+
+== Adnotări predefinite
+
+Puteți găsi aceste adnotări în pachetele: `java.lang` și `java.lang.annotation`.
+
+=== Tipuri de adnotări folosite de limbajul Java
+
+@Deprecated:: Această adnotare indică că elementul marcat este _depășit_ și nu mai este recomandat de a fi utilizat.
+Compilatorul emite un avertisment, atunci când este folosita o metodă, clasă sau câmp adnotat cu @Deprecated. Pentru
+elementele _depășite_ trebuie să fie prezent și tag-ul javadoc `@deprecated` în documentație, de exemplu:
+
+[source, java]
+----
+    // Javadoc comment follows
+    /**
+     * @deprecated
+     * explanation of why it was deprecated
+     */
+    @Deprecated
+    static void deprecatedMethod() { }
+}
+----
+
+@Override:: Adnotarea `@Override` informează compilatorul despre faptul că elementul adnotat suprascrie un alt element
+din clasa părinte.
+
+[source, java]
+----
+// mark method as a superclass method
+// that has been overridden
+@Override
+int overriddenMethod() { }
+----
+
+Cu toate că această adnotare nu este obligatorie atunci când dorim să suprascriem o metodă, ea ne ajută să prevenim
+erorile. Întrucât dacă pentru o metoda marcată cu `@Override` nu exista metoda din clasa părinte care se dorește a fi
+suprascrisă (cu același nume și signatură), compilatorul va emite o eroare.
+
+@SuppressWarnings:: Spune compilatotului să nu emită avertismente pentru elementului adnotat, pe care le-ar fie emis
+în mod obișnuit (în lipsa acestei adnotări). În exemplul următor e folosită o metoda _depășită_, pentru care
+compilatorul ar fi generat un avertisment, adnotarea `@SuppressWarnings` însă indică compilatorului să suprime această
+categorie de avertismene:
+
+[source, java]
+----
+// use a deprecated method and tell
+// compiler not to generate a warning
+@SuppressWarnings("deprecation")
+void useDeprecatedMethod() {
+    // deprecation warning
+    // - suppressed
+    objectOne.deprecatedMethod();
+}
+----
+
+Orice avertisment aparține unei categorii (de avertismente). În
+https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.6.4[Java Language Specification] sunt introduse
+două categorii: _deprecation_ și _unchecked_. Avertismentul _uncecked_ poate aparea atunci când se interacționează cu
+cod vechi dinaintea apariției tipurilor generice. Pentru a suprima mai multe categorii de avertismente folosim
+sintaxa:
+
+[source, java]
+----
+@SuppressWarnings({"unchecked", "deprecation"})
+----
+
+@SafeVarargs:: Adnotarea https://docs.oracle.com/javase/8/docs/api/java/lang/SafeVarargs.html[@SafeVarargs] dacă este
+folosită peste o metodă sau un constructor specifică că codul din metodă (sau constructor) nu face nimic nesigur cu
+parametrul său de tip `varagrs`, respectiv nu e nevoie de toate verificările obișnuite.
+
+@FunctionalInterface:: Adnotarea
+https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html[@FunctionalInterface] a apărut în Java SE
+8 și specifică faptul că interfața este o _interfață funcțională_ în sensul definiției din
+https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.8[Java Language Specification].

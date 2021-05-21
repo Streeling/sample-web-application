@@ -1,0 +1,114 @@
+= Aplicație web simplă [utilizând Spring Boot]: Sample Web Application [with Spring Boot]
+
+. În cele ce urmează vom implementa o simplă aplicație web de tip REST folosind Spring Boot. În acest scop vom folosi
+ghid-ul https://spring.io/guides/gs/spring-boot/ de pe situl oficial al framework-ului Spring.
+
+. Ghidul area următoarea structură pe secțiuni:
+- _What You Will build_
+- _What You Need_
+- _How to complete this guide_
+- _Learn What You Can Do with Spring Boot_
+- _Starting with Spring Initializr_
+- _Create a Simple Web Application_
+- _Create an Application class_
+- _Run the Application_
+- _Add Unit Tests_
+- _Add Production-grade Services_
+- _View Spring Boot’s Starters_
+- _JAR Support and Groovy Support_
+- _Summary_
+- _See Also_
+
+. În secțiunea _What You Need_ sunt enumerate instrumentele de care veți avea nevoie pentru a compila codul sursă
+(proiectul). Pentru simplitate vă recomand doar aceste două:
+- JDK 8: https://www.oracle.com/ro/java/technologies/javase/javase-jdk8-downloads.html
+- IntelliJ IDEA Community: https://www.jetbrains.com/idea/download/#section=windows
+
+. Așa cum e specificat în secțiunea _How to complete this guide_ avem mai multe opțiuni în ceea ce privește
+crearea aplicației: putem fie „de la zero” prin Spring Initializr (https://start.spring.io/), fie descărcând codul
+sursă de pe GitHub. Noi vom porni „de la zero”, recomand însă să consultați conținutul proiectului de pe GitHub, veți
+descoperi că proiectul are doua subdosare: _complete_ și _initial_. În _initial_ veți găsi prima versiune a aplicației
+pe care o veți construi dacă veți urma pașii din secțiunile:
+- _Starting with Spring Initializr_
+- _Create a Web Controller_
+- _Spring Boot Devtools_
+- _Run the Application_
+- _Build an executable JAR_
+
++
+Iar în subdosarul _complete_ este versiunea finală a aplicației, la care trebuie să ajungeți dacă veți urmă pașii
+descriși începând cu secțiunea _Test the Application_. Astfel aveți posiblitatea să _trageți cu ochiul_ la ceea ce
+trebuie să ajungeți în final (în caz ca nu vă reușește ceva sau pur și simplu dacă sunteți curioși).
+
+. În cadrul secțiunii _Starting with Spring Initializr_ intrați pe https://start.spring.io/[Spring Initializr] și:
+- în formularul _Project Metadata_ (stânga-sus)
+** în _Artifact_ și în _Name_ puneți _spring-boot_
+** în _Package_ puneti _com.example.springboot_
+** la _Java_ alegeți _8_
+- iar la dependințe veți avea nevoie, așa cum e scris și în secțiune, de _Spring Web_
+** cu alte cuvinte, dați clic pe butonul _ADD DEPENDENECIES_ (dreapta-sus)
+** introduceți _Spring Web_ și tastați _Enter_.
+- în final dați clic pe butonul _GENERATE_ (mijloc-jos).
+
++
+După ce
+ați generat și descărcat proiectul folosind https://start.spring.io/[Spring Initializr] îl veți deschide în IDEA
+(_File -> Open_).
+
+. Veți descoperi (un) proiectul Maven; mai multe amănunte despre Maven în
+https://github.com/Streeling/java/blob/main/sample-web-application/Maven.adoc[Maven.adoc]
+
+. În secțiunea _Create a Simple Web Application_ trebuie să creați clas `HelloController.java` în pachetul
+`com/example/springboot/`. Pachetul deja există, de aceea în IDEA, _Tool Window_ _Project_ (regiunea din stânga-sus
+care listează fișierele proiectului):
+- clic dreapta pe dosarul _springboot_ din _src/main/java/com/example_
+- _New -> Java Class_
+- introduceți _HelloController_
+- tastați _Enter_.
+
+. Faceti cunoștință cu mediul de dezvoltare IntelliJ IDEA; mai multe amănunte despre acest mediu în http://mike.tuiasi.ro/LabPP1.pdf
+
+. În secțiunea _Run the Application_ modalitățile prezentate de rulare sunt comenzi în linia de comandă, pentru
+simplitate vă recomand să utilizați interfața IDEA (în plus pentru a utiliza linia de comandă veți avea nevoie de
+Maven preinstalat, ceea ce noi n-am facut în mod intenționat). Deci în IDEA:
+- _Build -> Build Project_ pentru a construi proiectul
+** în cazuri mai speciale _Build -> Rebuild Project_ pentru a șterge rezultatele build-ului anterior și build
+_de la zero_
+- _Run -> Edit Configurations_ pentru a crea un profil de execuție
+** alegeți _+ (stânga-sus) -> Application_
+** în _Name_ în loc de _Unnamed_ punem de exemplu _first-pring-boot-rest-app_
+** în _Main class_: apasăm pe butonul cu _..._ și alegem clasa `Application`
+** clic OK
+- apoi _Run -> Run...-> sau _Run -> Debug..._ pentru rula aplicația
+** pentru a vizualiza rezutlatul, deschideți navigatorul web și accesați adresa http://localhost:8080/ (nu e nevoie
+de coamnda `curl localhost:8080`).
+
+. Analizați clasa `HelloController`, în special adnotările `@RestController` și `@RequestMapping`; mai multe amănunte
+despre adnotări în https://github.com/Streeling/java/blob/main/sample-web-application/Annotations.adoc[Annotations.adoc]
+
+. În _Add Unit Tests_ veți lucra deja în dosarul `src/test`.
+
+. În _Add Production-grade Services_ lucrați cu interfața IDEA și nu cu linia de comandă.
+
+. Ignorați secțiunea __JAR Support and Groovy Support__
+
+. În _See Also_ recomand link-ul _Serving Web Content with Spring MVC_.
+
+. Pentru exersare recomand următoarle întrebări+răspunsuri:
+- https://www.sanfoundry.com/advanced-java-questions-answers-annotations/
+- https://www.baeldung.com/java-annotations-interview-questions
+
+== Exerciții și probleme
+
+. Scrieți un controller (sau modificați cel existent) care trebuie să primească parametrii (`@RequestParameter`): `a`
+de tip întreg, `b` de tip `string` și `c` de tip `double`; să emită o eroare dacă `a` lipsește; în caz că lipsește `b`
+să nu emită erori ci să folosească valoarea implicită `x`.
+. Scrieți un controller care trebuie să primească variabilele de cale (`@PathVariable`): `a` de tip întreg, `b` de tip
+`string` și `c` de tip `double`; să emită o eroare dacă `a` lipsește; in caz că lispsește `b` să nu emită erori.
+. Scrieți un controller care rapsunde cu 502 dacă se indeplinește o anumită condiție;
+. Avem următoarle url-uri `/abc/a` și `/abc/b`, scrieți 2 controllere atfel incăt primul să prelucreze cerera
+`/abc/a` iar al doilea `/abc/b`;
+. Adaugați o dependință la proiect.
+. Cum verificam dacă există maven în sitem și dacă nu e, cum folosim maven wrapper?
+. Modificați fișierul _application.properties_ (din acest exemplul) astfel încăt aplicația să fie accesibilă la portul
+8088.
